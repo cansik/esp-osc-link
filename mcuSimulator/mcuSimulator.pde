@@ -56,20 +56,23 @@ void showInfo()
 
 void showAxisMarker()
 {
-  int axisLength = 100;
-  strokeWeight(3);
+  int axisLength = 150;
+  strokeWeight(5);
 
   // x
   stroke(236, 32, 73);
   line(0, 0, 0, axisLength, 0, 0);
+  text("X-axis", axisLength, 0f, 0f);
 
   // y
   stroke(47, 149, 153);
   line(0, 0, 0, 0, axisLength, 0);
+  text("Y-axis", 0f, axisLength, 0f);
 
   // z
   stroke(247, 219, 79);
   line(0, 0, 0, 0, 0, axisLength);
+  text("Z-axis", 0f, 0f, axisLength);
 }
 
 void keyPressed()
