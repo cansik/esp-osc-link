@@ -8,19 +8,19 @@
 
 #include <controller/TimeBasedController.h>
 #include <controller/network/OscController.h>
-#include <model/MutableBuffer.h>
+#include <model/RingBuffer.h>
 
 #define UPLINK_FRAMERATE 60
 
 class SerialUplink : public TimeBasedController {
 private:
     OscController *osc;
-    MutableBuffer<OSCMessage> *buffer;
+    RingBuffer<OSCMessage> *messageBuffer;
 
     String inputString;
 
 public:
-    explicit SerialUplink(OscController *osc, MutableBuffer<OSCMessage> *buffer);
+    explicit SerialUplink(OscController *osc, RingBuffer<OSCMessage> *messageBuffer);
 
     void timedLoop() override;
 

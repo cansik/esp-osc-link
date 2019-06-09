@@ -3,7 +3,7 @@
 #include <inttypes.h>
 #include <util/StatusLed.h>
 #include <uplink/SerialUplink.h>
-#include <model/MutableBuffer.h>
+#include <model/RingBuffer.h>
 #include "controller/BaseController.h"
 #include "controller/network/NetworkController.h"
 #include "controller/network/OTAController.h"
@@ -20,10 +20,10 @@ auto ota = OTAController(DEVICE_NAME.c_str(), OTA_PASSWORD, OTA_PORT);
 auto osc = OscController(OSC_IN_PORT, OSC_OUT_PORT);
 
 // data buffer
-auto buffer = MutableBuffer<OSCMessage>(MAX_BUFFER_SIZE);
+auto messageBuffer = RingBuffer<OSCMessage>(MAX_BUFFER_SIZE);
 
 // uplink
-auto uplink = SerialUplink(&osc, &buffer);
+auto uplink = SerialUplink(&osc, &messageBuffer);
 
 // controller list
 BaseControllerPtr controllers[] = {
@@ -63,6 +63,5 @@ void loop() {
 }
 
 void handleOsc(OSCMessage &msg) {
-   // todo: add to buffer
-
+    messageBuffer.add(&msg);
 }

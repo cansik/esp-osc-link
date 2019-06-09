@@ -4,9 +4,9 @@
 
 #include "SerialUplink.h"
 
-SerialUplink::SerialUplink(OscController *osc, MutableBuffer<OSCMessage> *buffer) :
+SerialUplink::SerialUplink(OscController *osc, RingBuffer<OSCMessage> *messageBuffer) :
         TimeBasedController(UPLINK_FRAMERATE, FRAMES_PER_SECOND) {
-    this->buffer = buffer;
+    this->messageBuffer = messageBuffer;
     this->osc = osc;
 
     // set timeout for string reading

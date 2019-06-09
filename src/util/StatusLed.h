@@ -24,10 +24,6 @@ public:
     static void turnOn();
 
     static void turnOff();
-
-    static void setBrightness(uint8_t brightness);
-
-    static void ledcAnalogWrite(uint8_t channel, uint32_t value, uint32_t valueMax = 255);
 };
 
 

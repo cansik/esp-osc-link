@@ -6,7 +6,7 @@
 #define THREE_SCAN_MUTABLEBUFFER_H
 
 template<class T>
-class MutableBuffer {
+class RingBuffer {
 private:
     typedef T *TPtr;
 
@@ -16,10 +16,14 @@ private:
 
     unsigned int index = 0;
 
-public:
-    explicit MutableBuffer(unsigned int maxSize);
+    unsigned int size = 0;
 
-    ~MutableBuffer();
+    const unsigned int getIndex(unsigned int i);
+
+public:
+    explicit RingBuffer(unsigned int maxSize);
+
+    ~RingBuffer();
 
     void add(TPtr value);
 
@@ -33,40 +37,40 @@ public:
         return maxSize;
     }
 
-    const TPtr get(unsigned int i) {
-        return data[i];
-    }
+    TPtr operator[](int i) const { return data[getIndex(i)]; }
 
-    TPtr operator[](int i) const { return data[i]; }
-
-    TPtr &operator[](int i) { return data[i]; }
+    TPtr &operator[](int i) { return data[getIndex(i)]; }
 };
 
 template<class T>
-MutableBuffer<T>::MutableBuffer(unsigned int maxSize) {
+RingBuffer<T>::RingBuffer(unsigned int maxSize) {
     this->maxSize = maxSize;
     this->data = new TPtr[maxSize];
     reset();
 }
 
 template<class T>
-MutableBuffer<T>::~MutableBuffer() {
+RingBuffer<T>::~RingBuffer() {
     clear();
     delete[] data;
 }
 
 template<class T>
-void MutableBuffer<T>::add(TPtr value) {
-    data[index++] = value;
+void RingBuffer<T>::add(TPtr value) {
+    data[getIndex(index)] = value;
+
+    index++;
+    size = min(size + 1, maxSize);
 }
 
 template<class T>
-void MutableBuffer<T>::reset() {
+void RingBuffer<T>::reset() {
     index = 0;
+    size = 0;
 }
 
 template<class T>
-void MutableBuffer<T>::clear() {
+void RingBuffer<T>::clear() {
     for (auto i = 0; i < length(); i++) {
         delete data[i];
     }
@@ -74,8 +78,13 @@ void MutableBuffer<T>::clear() {
 }
 
 template<class T>
-const unsigned int MutableBuffer<T>::length() {
-    return index;
+const unsigned int RingBuffer<T>::length() {
+    return size;
+}
+
+template<class T>
+const unsigned int RingBuffer<T>::getIndex(unsigned int i) {
+    return (index - i + maxSize) % maxSize;
 }
 
 
