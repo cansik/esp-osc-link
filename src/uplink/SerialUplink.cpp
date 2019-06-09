@@ -4,7 +4,7 @@
 
 #include "SerialUplink.h"
 
-SerialUplink::SerialUplink(OscController *osc, MessageBuffer *buffer) :
+SerialUplink::SerialUplink(OscController *osc, MutableBuffer<OSCMessage> *buffer) :
         TimeBasedController(UPLINK_FRAMERATE, FRAMES_PER_SECOND) {
     this->buffer = buffer;
     this->osc = osc;

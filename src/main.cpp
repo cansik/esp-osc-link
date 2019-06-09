@@ -3,30 +3,13 @@
 #include <inttypes.h>
 #include <util/StatusLed.h>
 #include <uplink/SerialUplink.h>
+#include <model/MutableBuffer.h>
 #include "controller/BaseController.h"
 #include "controller/network/NetworkController.h"
 #include "controller/network/OTAController.h"
 #include "controller/network/OscController.h"
 #include "util/MathUtils.h"
-
-// status
-#define STATUS_LED_PIN 2
-
-// serial
-#define BAUD_RATE 9600
-
-// network
-#define DEVICE_NAME String("esp-osc-link")
-
-#define SSID_NAME "Hello"
-#define SSID_PASSWORD ""
-
-#define OTA_PASSWORD "osclink"
-#define OTA_PORT 8266
-
-// twisted
-#define OSC_OUT_PORT 9000
-#define OSC_IN_PORT 8000
+#include "OscLinkGlobals.h"
 
 // typedefs
 typedef BaseController *BaseControllerPtr;
@@ -37,7 +20,7 @@ auto ota = OTAController(DEVICE_NAME.c_str(), OTA_PASSWORD, OTA_PORT);
 auto osc = OscController(OSC_IN_PORT, OSC_OUT_PORT);
 
 // data buffer
-auto buffer = MessageBuffer();
+auto buffer = MutableBuffer<OSCMessage>(MAX_BUFFER_SIZE);
 
 // uplink
 auto uplink = SerialUplink(&osc, &buffer);
@@ -81,4 +64,5 @@ void loop() {
 
 void handleOsc(OSCMessage &msg) {
    // todo: add to buffer
+
 }
