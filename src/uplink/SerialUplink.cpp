@@ -24,8 +24,13 @@ void SerialUplink::timedLoop() {
         return;
     }
 
-    // received accelerometer data
-    if (inputString.startsWith("")) {
+    // display osc messages
+    if(inputString.startsWith("OSC:DBG")) {
+        Serial.printf("Messages: %d\n", messageBuffer->length());
+    }
+
+    // received osc data
+    if (inputString.startsWith("OSC:ACC")) {
 
         // parse data
         //sscanf(inputString.c_str(), "DAT:ACC;%d;%d;%d", &x, &y, &z);
