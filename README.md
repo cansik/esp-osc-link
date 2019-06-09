@@ -8,6 +8,7 @@ The idea of this software is to provide a simple uplink for non-network microcon
 
 ## Functions
 - Connect to WIFI (with credentials)
+- Store credentials in EEPROM
 - Send OSC Data (`INTEGER`)
 - Receive and buffer OSC data
 - Poll buffered data
