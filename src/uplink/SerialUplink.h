@@ -19,12 +19,14 @@ private:
 
     String inputString;
 
+    void processConfiguration();
+
+    void processData();
+
 public:
     explicit SerialUplink(OscController *osc, RingBuffer<OSCMessage> *messageBuffer);
 
     void timedLoop() override;
-
-    void publishMessage();
 };
 
 

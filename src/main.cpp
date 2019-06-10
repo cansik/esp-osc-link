@@ -63,6 +63,5 @@ void loop() {
 }
 
 void handleOsc(OSCMessage &msg) {
-    Serial.println("msg received");
     messageBuffer.add(&msg);
 }

@@ -25,24 +25,28 @@ void SerialUplink::timedLoop() {
     }
 
     // display osc messages
-    if(inputString.startsWith("OSC:DBG")) {
-        Serial.printf("Messages: %d\n", messageBuffer->length());
+    if(inputString.startsWith("OSC:CFG")) {
+        processConfiguration();
     }
 
     // received osc data
-    if (inputString.startsWith("OSC:ACC")) {
-
-        // parse data
-        //sscanf(inputString.c_str(), "DAT:ACC;%d;%d;%d", &x, &y, &z);
-
-        // todo: implement protocol
+    if (inputString.startsWith("OSC:DAT")) {
+        processData();
     }
 }
 
-void SerialUplink::publishMessage() {
-    OSCMessage msg("");
+void SerialUplink::processConfiguration() {
+    char command[10];
 
-    osc->sendMessage(msg);
+    // parse cmd
+    sscanf(inputString.c_str(), "OSC:CFG %s", &command);
+    Serial.println(inputString);
 
-    msg.empty();
+    if(String(command).startsWith("DEBUG")) {
+        Serial.printf("Messages in Buffer: %d\n", messageBuffer->length());
+    }
+}
+
+void SerialUplink::processData() {
+
 }
