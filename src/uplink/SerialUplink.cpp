@@ -48,5 +48,15 @@ void SerialUplink::processConfiguration() {
 }
 
 void SerialUplink::processData() {
+    char oscAddress[50];
+    int argumentCount = 0;
 
+    sscanf(inputString.c_str(), "OSC:DAT %s %d", &oscAddress, &argumentCount);
+
+    Serial.printf("sending %s...\n", oscAddress);
+
+    // send osc message
+    OSCMessage msg(oscAddress);
+    osc->sendMessage(msg);
+    msg.empty();
 }
