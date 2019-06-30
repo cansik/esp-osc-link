@@ -107,7 +107,7 @@ class MicroController implements Runnable
     // sending data
     if (publishDataRequested) {
       publishDataRequested = false;
-      port.write("DAT:ACC;" + cube.x +  ";" + cube.y + ";" + cube.z + "\n");
+      port.write("OSC:DAT /lnk/pos 3 " + cube.x +  ";" + cube.y + ";" + cube.z + "\n");
     }
   }
 }
