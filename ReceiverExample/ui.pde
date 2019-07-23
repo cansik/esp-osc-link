@@ -28,6 +28,14 @@ void setupUI()
   cp5.addLabel("OSC RECEIVER")
     .setPosition(10, h);
 
+  h += 30;
+  cp5.addButton("sendTestData")
+    .setValue(100)
+    .setPosition(10, h)
+    .setSize(150, 22)
+    .setCaptionLabel("Send Test")
+    ;
+
   uiHeight = h + 500;
 
   isUIInitialized = true;
@@ -45,6 +53,12 @@ void g() {
 
 void b() {
   if (!isUIInitialized) return;
+  publishTestData();
+}
+
+void sendTestData() {
+  if (!isUIInitialized) return;
+  
   publishTestData();
 }
 

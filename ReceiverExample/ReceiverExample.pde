@@ -9,7 +9,7 @@ NetAddress uplinkAddress;
 // osc settings
 int inPort = 9000;
 int outPort = 8000;
-String address = "172.20.255.255"; //"192.168.1.255";
+String address =  "172.20.10.4"; //"172.20.255.255"; //"192.168.1.255";
 
 PeasyCam cam;
 
@@ -78,14 +78,17 @@ void keyPressed()
 {
   if (key == ' ')
   {
-    println("send test...");
   }
 }
 
 void publishTestData() {
-  OscMessage msg = new OscMessage("/lnk/test");
-  msg.add(1);
+  OscMessage msg = new OscMessage("/rgb");
+  msg.add(100);
+  msg.add(200);
+  msg.add((int)random(0, 255));
   oscP5.send(msg, uplinkAddress);
+
+  println("sending test data...");
 }
 
 void oscEvent(OscMessage msg) {

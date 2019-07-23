@@ -63,5 +63,5 @@ void loop() {
 }
 
 void handleOsc(OSCMessage &msg) {
-    //messageBuffer.add(&msg);
+    uplink.processDataToSerial(msg);
 }

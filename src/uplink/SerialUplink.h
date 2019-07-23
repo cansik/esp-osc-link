@@ -12,6 +12,9 @@
 
 #define UPLINK_FRAMERATE 60
 
+#define MAX_OSC_ADDRESS_SIZE 32
+#define MAX_OSC_STRING_SIZE 64
+
 class SerialUplink : public TimeBasedController {
 private:
     OscController *osc;
@@ -27,6 +30,8 @@ public:
     explicit SerialUplink(OscController *osc, RingBuffer<OSCMessage> *messageBuffer);
 
     void timedLoop() override;
+
+    void processDataToSerial(OSCMessage msg);
 };
 
 
