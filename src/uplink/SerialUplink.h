@@ -30,8 +30,6 @@ public:
     explicit SerialUplink(OscController *osc, RingBuffer<OSCMessage> *messageBuffer);
 
     void timedLoop() override;
-
-    void processDataToSerial(OSCMessage msg);
 };
 
 

@@ -87,33 +87,3 @@ void SerialUplink::processData() {
     osc->sendMessage(msg);
     msg.empty();
 }
-
-void SerialUplink::processDataToSerial(OSCMessage msg) {
-    char buffer [MAX_OSC_STRING_SIZE];
-    char address[MAX_OSC_ADDRESS_SIZE];
-
-    // read address
-    msg.getAddress(address);
-
-    // read parameters
-    switch (msg.size()) {
-        case 0:
-            sprintf (buffer, "LD %s 0", address);
-            break;
-
-        case 1:
-            sprintf (buffer, "LD %s %d %d", address, msg.size(), msg.getInt(0));
-            break;
-
-        case 2:
-            sprintf (buffer, "LD %s %d %d %d", address, msg.size(), msg.getInt(0), msg.getInt(1));
-            break;
-
-        case 3:
-            sprintf (buffer, "LD %s %d %d %d %d", address, msg.size(), msg.getInt(0), msg.getInt(1), msg.getInt(2));
-            break;
-    }
-
-    Serial.println("Sending to MCU: ");
-    Serial.printf("%s\n", buffer);
-}
