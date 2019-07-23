@@ -63,5 +63,5 @@ void loop() {
 }
 
 void handleOsc(OSCMessage &msg) {
-    messageBuffer.add(&msg);
+    //messageBuffer.add(&msg);
 }

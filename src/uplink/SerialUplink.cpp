@@ -25,12 +25,12 @@ void SerialUplink::timedLoop() {
     }
 
     // display osc messages
-    if(inputString.startsWith("OSC:CFG")) {
+    if (inputString.startsWith("LC")) {
         processConfiguration();
     }
 
     // received osc data
-    if (inputString.startsWith("OSC:DAT")) {
+    if (inputString.startsWith("LD")) {
         processData();
     }
 }
@@ -39,24 +39,51 @@ void SerialUplink::processConfiguration() {
     char command[10];
 
     // parse cmd
-    sscanf(inputString.c_str(), "OSC:CFG %s", &command);
+    sscanf(inputString.c_str(), "LC %s", &command);
     Serial.println(inputString);
 
-    if(String(command).startsWith("DEBUG")) {
+    if (String(command).startsWith("DEBUG")) {
         Serial.printf("Messages in Buffer: %d\n", messageBuffer->length());
     }
 }
 
 void SerialUplink::processData() {
     char oscAddress[50];
-    int argumentCount = 0;
+    int paramCount = 0;
+    int params[3];
 
-    sscanf(inputString.c_str(), "OSC:DAT %s %d", &oscAddress, &argumentCount);
+    auto input = inputString.c_str();
 
-    Serial.printf("sending %s...\n", oscAddress);
+    // read header
+    auto res = sscanf(input, "LD %s %d", &oscAddress, &paramCount);
+
+    // check if parsing worked
+    if (res <= 0) {
+        return;
+    }
+
+    // read parameters
+    switch (paramCount) {
+        case 1:
+            sscanf(input, "LD %*s %*d %d", &params[0]);
+            break;
+
+        case 2:
+            sscanf(input, "LD %*s %*d %d %d", &params[0], &params[1]);
+            break;
+
+        case 3:
+            sscanf(input, "LD %*s %*d %d %d %d", &params[0], &params[1], &params[2]);
+            break;
+    }
+
+    // fill params to message
+    OSCMessage msg(oscAddress);
+    for (int i = 0; i < paramCount; i++) {
+        msg.add(params[i]);
+    }
 
     // send osc message
-    OSCMessage msg(oscAddress);
     osc->sendMessage(msg);
     msg.empty();
 }

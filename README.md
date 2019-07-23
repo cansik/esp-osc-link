@@ -16,4 +16,12 @@ The idea of this software is to provide a simple uplink for non-network microcon
 
 
 ## Protocol
-tbd
+
+
+### Data
+Send OSC message from MicroController to OSC Link:
+
+```java
+Header Address ParamCount Param0 Param1\n
+LD /test 2 25 52\n
+```
