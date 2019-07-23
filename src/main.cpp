@@ -4,6 +4,7 @@
 #include <util/StatusLed.h>
 #include <uplink/SerialUplink.h>
 #include <model/RingBuffer.h>
+#include <ESP8266mDNS.h>
 #include "controller/BaseController.h"
 #include "controller/network/NetworkController.h"
 #include "controller/network/OTAController.h"
@@ -49,7 +50,8 @@ void setup() {
     osc.onMessageReceived(handleOsc);
 
     // add osc mdns
-    // todo: fix this again
+    // todo: fix this again (only for esp8266)
+    //MDNS.addService("osc", "udp", OSC_IN_PORT);
     //network.addMDNSService("_osc", "_udp", OSC_IN_PORT);
 
     Serial.println("esp uplink is setup!");
@@ -72,21 +74,21 @@ void handleOsc(OSCMessage &msg) {
     // read parameters
     switch (msg.size()) {
         case 0:
-            sprintf (buffer, "LD %s 0", address);
+            sprintf (buffer, "LD %s 0\n", address);
             break;
 
         case 1:
-            sprintf (buffer, "LD %s %d %d", address, msg.size(), msg.getInt(0));
+            sprintf (buffer, "LD %s %d %d\n", address, msg.size(), msg.getInt(0));
             break;
 
         case 2:
-            sprintf (buffer, "LD %s %d %d %d", address, msg.size(), msg.getInt(0), msg.getInt(1));
+            sprintf (buffer, "LD %s %d %d %d\n", address, msg.size(), msg.getInt(0), msg.getInt(1));
             break;
 
         case 3:
-            sprintf (buffer, "LD %s %d %d %d %d", address, msg.size(), msg.getInt(0), msg.getInt(1), msg.getInt(2));
+            sprintf (buffer, "LD %s %d %d %d %d\n", address, msg.size(), msg.getInt(0), msg.getInt(1), msg.getInt(2));
             break;
     }
 
-    Serial.printf("%s\n", buffer);
+    Serial.printf("%s", buffer);
 }
