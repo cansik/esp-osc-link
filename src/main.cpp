@@ -74,21 +74,21 @@ void handleOsc(OSCMessage &msg) {
     // read parameters
     switch (msg.size()) {
         case 0:
-            sprintf (buffer, "LD %s 0\n", address);
+            sprintf (buffer, "LD %s 0", address);
             break;
 
         case 1:
-            sprintf (buffer, "LD %s %d %d\n", address, msg.size(), msg.getInt(0));
+            sprintf (buffer, "LD %s %d %d", address, msg.size(), msg.getInt(0));
             break;
 
         case 2:
-            sprintf (buffer, "LD %s %d %d %d\n", address, msg.size(), msg.getInt(0), msg.getInt(1));
+            sprintf (buffer, "LD %s %d %d %d", address, msg.size(), msg.getInt(0), msg.getInt(1));
             break;
 
         case 3:
-            sprintf (buffer, "LD %s %d %d %d %d\n", address, msg.size(), msg.getInt(0), msg.getInt(1), msg.getInt(2));
+            sprintf (buffer, "LD %s %d %d %d %d", address, msg.size(), msg.getInt(0), msg.getInt(1), msg.getInt(2));
             break;
     }
 
-    Serial.printf("%s", buffer);
+    Serial.println(buffer);
 }
