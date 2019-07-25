@@ -9,7 +9,7 @@ NetAddress uplinkAddress;
 // osc settings
 int inPort = 9000;
 int outPort = 8000;
-String address =  "172.20.10.4"; //"172.20.255.255"; //"192.168.1.255";
+String address = "192.168.1.255"; // "172.20.10.4"; //"172.20.255.255"; //"192.168.1.255";
 
 PeasyCam cam;
 
